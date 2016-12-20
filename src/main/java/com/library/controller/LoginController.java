@@ -11,6 +11,7 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.library.entity.User;
 import com.library.entity.enums.UserRoleEnum;
+import com.library.service.LibraryService;
 import com.library.service.SecurityService;
 import com.library.service.UserService;
 import com.library.validator.UserValidator;
@@ -37,6 +39,9 @@ public class LoginController {
 	
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private LibraryService libraryService;
 	
 	@Autowired
 	private UserService userService;
@@ -104,7 +109,9 @@ public class LoginController {
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value={"/", "/library"}, method = RequestMethod.GET)
 	public String welcome(Model model, HttpServletResponse response, HttpServletRequest request){
-		model.addAttribute("user", userService.findByUsername(request.getUserPrincipal().getName()));
+		HttpSession session = request.getSession();
+		session.setAttribute("user", userService.findByUsername(request.getUserPrincipal().getName()));
+		model.addAttribute("genres", libraryService.getAllGenre());
 		return "library";
 	}
 	

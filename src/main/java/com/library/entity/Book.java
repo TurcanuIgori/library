@@ -55,7 +55,7 @@ public class Book {
 	@Column
 	private String bookPath;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Genre genre;
 	
 	public int getId() {

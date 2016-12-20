@@ -34,13 +34,13 @@
 		</div>
 		<div id="wrap"> 
 			<div class="logo">
-				<a href="home.jsp">
+				<a href="library">
 					<img src="<c:url value="/pages/resources/images/logo.png"/>"/>
 				</a>
 			</div>
 			<div class="menu">
 				<ul>
-					<li><a href="home.jsp">home</a></li>                            
+					<li><a href="library">home</a></li>                            
 					<li><a href="about.jsp">about</a></li>
 					<li><a href="SendEmail" target="_blank">contact</a></li>                            
 				</ul>
@@ -62,9 +62,10 @@
 				<div class="left-menu">
 					<form class="genres" id="genresForm">
 						<ul>
-							<c:forEach items="${listGenre}" var="genre">	
+							<c:forEach items="${genres}" var="genre">	
 								<li>
-									<a href="#" value="${genre.id}" onclick="getBooksByGenre(${genre.id}, 1)" class="genre">${genre.name}</a>										
+									<a href="#" value="${genre.id}"  class="genre">${genre.name}</a>		
+<%-- 									onclick="getBooksByGenre(${genre.id}, 1)"*/								 --%>
 								</li>
 							</c:forEach>						
 						</ul>
@@ -74,7 +75,7 @@
 					<div class="box-sh">
 						<h1><p id="booksCount">Books size: ${fn:length(books)}</p></h1>
 						<form id="add-action">
-							<a href="BookController?action=ADD_EDIT_BOOK&id=${book.id}">Add Book</a>							
+							<a href="addBook">Add Book</a>							
 						</form>
 						<hr style="width:96%; color: #aeaeae"/>
 					</div>					

@@ -35,7 +35,6 @@ public class UserDAO {
 		logger.info("User had been removed.");
 	}
 	
-	@Transactional
 	public User getStudentById(int id) {
 		Query query = em.createQuery("Select u From User as u where u.id = :id");
 		query.setParameter("id", id);
@@ -49,19 +48,16 @@ public class UserDAO {
 		return newUser;
 	}
 	
-	@Transactional
 	public User addUser(User user){
 		em.persist(user);
 	    return user;
 	}
 	
-	@Transactional
 	public User updateUser(User user){
 		em.merge(user);
 	    return user;
 	}
 	
-	@Transactional
 	public List<User> findAllUsers() {
 		Query query = em.createQuery("Select u From User as u");
 		return (List<User>) query.getResultList();
