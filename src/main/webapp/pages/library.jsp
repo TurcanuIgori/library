@@ -89,7 +89,7 @@
 									<div class="image-info">
 	
 										<a class="content_link" target="_blank">
-											<img src="BookPicture?id=${book.id}" width="110" height="150"/>										
+											<img src="picture_book/<c:out value="${book.picturePath}"/>" width="110" height="150"/>										
 										</a>
 	
 	
@@ -124,10 +124,10 @@
 									<a href="DownloadPDF?id=${book.id}" class="mr" value="Download" target="_blank">
 										<p class="download">Download</p>
 									</a>
-									<a href="BookController?action=ADD_EDIT_BOOK&id=${book.id}" class="mr" title="Edit Book">
+									<a href="editBook/${book.id}" class="mr" title="Edit Book">
 										<p class="edit">Edit</p>
 									</a>
-									<a href="BookController?action=DELETE_BOOK&id=${book.id}" class="delete-button" title="Delete">
+									<a href="deleteBook/${book.id}" class="delete-button" title="Delete">
 										<p class="delete">Delete</p>
 									</a>
 								</div>

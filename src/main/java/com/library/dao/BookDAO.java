@@ -23,7 +23,7 @@ public class BookDAO {
 		this.em = em;
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional
 	public Book addBook(Book book){
 		em.persist(book);
 	    return book;
@@ -69,8 +69,8 @@ public class BookDAO {
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Book> findBooksByGenre(int genre_id) {
-		Query query = em.createQuery("Select b From Book as b join fetch b.genre g where b.genre = :genre_id");
-		query.setParameter("title", genre_id);
+		Query query = em.createQuery("Select b From Book as b join fetch b.genre g where g.id = :genre_id");
+		query.setParameter("genre_id", genre_id);
 		return (List<Book>) query.getResultList();
 	}
 }

@@ -54,7 +54,12 @@ public class LibraryService {
 	
 	@Transactional
 	public void addBook(Book book){
-		bookDAO.addBook(book);
+		if(book.getId() != 0){
+			bookDAO.addBook(book);
+		}else{
+			bookDAO.updateBook(book);
+		}
+		
 	}
 	
 	@Transactional

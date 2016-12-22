@@ -17,13 +17,13 @@ public class Author {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid first name.")
-	@Size(min=4, max=20, message="Your first name must be between 4 and 20 characters long.")
+//	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid first name.")
+//	@Size(min=4, max=20, message="Your first name must be between 4 and 20 characters long.")
 	@Column
 	private String firstName;
 	
-	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid last name.")
-	@Size(min=4, max=20, message="Your last name must be between 4 and 20 characters long.")
+//	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid last name.")
+//	@Size(min=4, max=20, message="Your last name must be between 4 and 20 characters long.")
 	@Column
 	private String lastName;
 

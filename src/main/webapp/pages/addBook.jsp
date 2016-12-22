@@ -13,7 +13,7 @@
 		<script src="<c:url value="/pages/resources/js/validator.js" />" type="text/javascript"> </script>
 	</head>
 	<body>		
-		<form class="box register" id="bookForm" method="POST" action="addBook" enctype="multipart/form-data">
+		<form:form commandName="book" class="box register"  method="POST" enctype="multipart/form-data">
 			<fieldset class="boxBody">
 				<a href="?lang=ru">
 					<img src="<c:url value="/pages/resources/images/rus.png" />" title="Russian" width="16" height="13"/>
@@ -21,58 +21,55 @@
 				<a href="?lang=en">
 					<img src="<c:url value="/pages/resources/images/usa.png" />" title="English" width="16" height="13"/>
 				</a>
-				<input type="hidden" form="bookForm" id="action" name="action" value="ADD_EDIT_BOOK"> 
-				<input type="hidden" form="bookForm" id="idBook" name="idBook" value="${book.id}">
-				<input type="hidden" form="bookForm" id="genre_id" name="genre_id" value="${book.genre.id}">
+				<form:hidden path="id"/>
+				<input type="hidden" name="category_id" value="${book.genre.id}"/>
 				<div id="profilePicture">
-				    <c:if test="${book.id != null}">
-				        <img src="BookPicture?id=${book.id}" id="image" width="150px"> 					        
-				    </c:if>    
-				    <c:if test="${book.id == null}">
-				        <img src="<c:url value="/pages/resources/images/noImgBook.png" />" id="image" height="150px">					        
-				    </c:if>
+				<img src="picture_book/<c:out value="${picturePath}"/>" id="image" width="150px"> 
+<%-- 				    <c:if test="${book.id != null}"> --%>
+<%-- 				        <img src="BookPicture?id=${book.id}" id="image" width="150px"> 					         --%>
+<%-- 				    </c:if>     --%>
+<%-- 				    <c:if test="${book.id == null}"> --%>
+<%-- 				        <img src="<c:url value="/pages/resources/images/noImgBook.png" />" id="image" height="150px">					         --%>
+<%-- 				    </c:if> --%>
 					<input type="file" accept="image/*" onchange="document.getElementById('image').setAttribute('src', window.URL.createObjectURL(this.files[0]))" name="picture" id="picture">
 				</div>
-				<label id="filePdfLabel">Select book file</label>
+				<form:label path="bookPath">Select book file</form:label>
 				<input type="file" accept="application/pdf"  name="filePdf" id="filePdf">
 				<label class="error">${textStatus}</label>		
-				<label id="nameLabel">Name</label>
-				<input type="text" form="bookForm" id="name" value="${book.name}" autocomplete="off" name="name">
-				<label id="nameError" class="error"></label>
-				<label>Author</label>
-				<input type="text" name="firstName" autocomplete="off"  value="${book.author.firstName}" id="firstName">
-				<label id="firstNameAuthorError" class="error"></label>
-				<input type="text" name="lastName" autocomplete="off"  value="${book.author.lastName}" id="lastName">
-				<label id="lastNameAuthorError" class="error"></label>
-				<label>Pages</label>
-				<input type="text" name="pages" id="pages"  value="${book.pages}" autocomplete="off">
-				<label id="pagesError" class="error"></label>
-				<label>Publisher</label>
-				<input type="text" name="publisher" id="publisher" autocomplete="off"  value="${book.publisher}">
-				<label id="publisherError" class="error"></label>
-				<label>Genre</label>
-				<select name="genre" id="genre">
-					<c:forEach items="${genres}" var="genre">
-						<c:if test="${genre.id == book.genre.id}"><option value="${genre.id}" selected>${genre.name}</option></c:if>
-						<c:if test="${genre.id != book.genre.id}"><option value="${genre.id}">${genre.name}</option></c:if>
-<%-- 						<option value="${genre.id}">${genre.name}</option> --%>
+				<form:label path="name">Name</form:label>
+				<form:input path="name" autocomplete="off"/>
+				<form:errors path="name" class="error"></form:errors>
+				<form:label path="author.firstName">Author</form:label>
+				<form:input path="author.firstName" autocomplete="off"/>
+				<form:errors path="author.firstName" class="error"/>
+				<form:input path="author.lastName" autocomplete="off" />
+				<form:errors path="author.lastName" class="error"/>
+				<form:label path="pages">Pages</form:label>
+				<form:input path="pages" autocomplete="off"/>
+				<form:errors path="pages" class="error"/>
+				<form:label path="publisher">Publisher</form:label>
+				<form:input path="publisher" autocomplete="off"/>
+				<form:errors path="publisher" class="error"/>
+				<form:label path="genre">Genre</form:label>
+				<form:select path="genre.id">
+					<form:option value="0" label="(none)"/>
+					<c:forEach items="${genres}" var="g">
+						<form:option value="${g.id}" label="${g.name}"/>						
 					</c:forEach>
-				</select>
-				<label>Year</label>
-				<input type="text" name="year" id="year" autocomplete="off"  value="${book.year}">
-				<label id="yearError" class="error"></label>
-				<label>ISBN</label>
-				<input type="text" name="isbn" id="isbn" autocomplete="off"  value="${book.isbn}">
-				<label id="isbnError" class="error"></label>
-				<label>Description</label>
-				<textarea id="description" name="description" rows="7" cols="30">
-					${book.description}
-				</textarea>
+				</form:select>
+				<form:label path="year">Year</form:label>
+				<form:input path="year" autocomplete="off"/>
+				<form:errors path="year" class="error"/>
+				<form:label path="isbn">ISBN</form:label>
+				<form:input path="isbn" autocomplete="off"/>
+				<form:errors path="isbn" class="error"/>
+				<form:label path="description">Description</form:label>
+				<form:textarea path="description" rows="7" cols="30"></form:textarea>
 			</fieldset>
 			<footer>	
-				<input type="submit" form="bookForm" value="Add Book" class="btnLogin" id="btnLogin">  
+				<input type="submit" value="Add Book" class="btnLogin" id="btnLogin">  
 <!-- 			<a href="home.jsp" onClick="createUser()" id="btnLogin" class="btnLogin">Sing Up</a> -->
 			</footer>	 
-		</form>
+		</form:form>
 	</body>
 </html>

@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -21,41 +23,43 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Size(min=5, max=50, message="Name of book must be between 5 and 50 characters long.")
+//	@Size(min=5, max=50, message="Name of book must be between 5 and 50 characters long.")
 	@Column
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@Valid
+//	@Valid
 	private Author author;
 	
 	@Column
 	private String picturePath;
 	
-	@Pattern(regexp="^[0-9]{2,5}$", message="Invalid number of pages of Book.")
+//	@Pattern(regexp="^[0-9]{2,5}$", message="Invalid number of pages of Book.")
 	@Column
 	private int pages;
 	
-	@Size(min=5, max=30, message="Publisher must be between 5 and 30 characters long.")
+//	@Size(min=5, max=30, message="Publisher must be between 5 and 30 characters long.")
 	@Column
 	private String publisher;
 	
-	@Pattern(regexp="^[0-9]{4,4}$", message="Invalid year of Book.")
+//	@Pattern(regexp="^[0-9]{4,4}$", message="Invalid year of Book.")
 	@Column
 	private int year;
 	
-	@Size(min=5, max=30, message="ISBN must be between 5 and 30 characters long.")
+//	@Size(min=5, max=30, message="ISBN must be between 5 and 30 characters long.")
 	@Column
 	private String isbn;
 	
-	@Size(min=10, max=20, message="Description must be between 6 and 100 characters long.")
+//	@Size(min=10, max=20, message="Description must be between 6 and 100 characters long.")
 	@Column
 	private String description;
 	
 	@Column
 	private String bookPath;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
+	@JoinColumn(name="genre_id", referencedColumnName="id")
+//	@JoinTable(name="book_genre", joinColumns={@JoinColumn(name="book_id")}, inverseJoinColumns={@JoinColumn(name="id")})
 	private Genre genre;
 	
 	public int getId() {

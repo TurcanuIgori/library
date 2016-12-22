@@ -17,8 +17,8 @@ public class Genre {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid genre.")
-	@Size(min=4, max=20, message="Genre must be between 4 and 20 characters long.")
+//	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid genre.")
+//	@Size(min=4, max=20, message="Genre must be between 4 and 20 characters long.")
 	@Column
 	private String name;
 

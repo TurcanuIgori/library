@@ -54,7 +54,7 @@
 				<form:password path="password"/>
 				<form:label path="password" class="error"></form:label>
 				<form:label path="confirmPassword">Confirm Password</form:label>
-				<form:input path="confirmPassword"/>
+				<form:password path="confirmPassword"/>
 				<form:label path="confirmPassword" class="error"/>
 			</fieldset>
 			<footer>	

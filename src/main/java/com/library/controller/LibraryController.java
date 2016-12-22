@@ -2,12 +2,18 @@ package com.library.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.library.entity.Book;
+import com.library.entity.Genre;
 import com.library.entity.User;
 import com.library.service.LibraryService;
 
@@ -37,12 +44,12 @@ public class LibraryController {
 	}
 	
 	@RequestMapping(value="/addBook", method = RequestMethod.POST)
-	public String login(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model, @RequestParam(value="pict", required=true) MultipartFile picture, @RequestParam(value="bookFile", required=true) MultipartFile bookFile){
-		if(bindingResult.hasErrors()){
-			model.addAttribute("errors",  bindingResult.getAllErrors());
-			return "addBook";
-		}
-		File img = new File("e:\\Pictures\\picturebook" + book.getIsbn() + "image.jpg");
+	public String login(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
+//		if(bindingResult.hasErrors()){
+//			model.addAttribute("errors",  bindingResult.getAllErrors());
+//			return "addBook";
+//		}
+		File img = new File("E:\\Pictures\\picture\\" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -61,7 +68,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("e:\\Pictures\\filebook" + book.getIsbn() + "file.pdf");
+		File file = new File("E:\\Pictures\\file\\" + book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -80,15 +87,91 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
+//		book.setId(1);
 		libraryService.addBook(book);
-		model.addAttribute("books", libraryService.getAllBooks());
-		return "library";
+		model.addAttribute("books", libraryService.getBooksByGenre(book.getGenre().getId()));
+		return "redirect:/library";
 	}
 	
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.GET)
-	public String login(@PathVariable("id") int id, Model model){
+	public String editBook(@PathVariable("id") int id, Model model){
 		model.addAttribute("book", libraryService.getBookById(id));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "addBook";
-	}	
+	}
+	
+	@RequestMapping(value="/editBook/{id}", method = RequestMethod.POST)
+	public String editBook(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
+		File img = new File("E:\\Pictures\\picture\\" + book.getIsbn() + "image.jpg");
+		if(img.exists()){
+			img.delete();
+		}
+		try {
+			img.createNewFile();
+			OutputStream out = null;
+			out = new BufferedOutputStream(new FileOutputStream(img));
+			if(picture.getBytes().length != 0){
+				out.write(picture.getBytes());
+				book.setPicturePath(book.getIsbn() + "image.jpeg");
+			}else{				
+				book.setPicturePath("noImage.jpeg");
+			}
+		    out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		File file = new File("E:\\Pictures\\file\\" + book.getIsbn() + "file.pdf");
+		if(file.exists()){
+			file.delete();
+		}
+		try {
+			file.createNewFile();
+			OutputStream out = null;
+			out = new BufferedOutputStream(new FileOutputStream(file));
+			if(bookFile.getBytes().length != 0){
+				out.write(bookFile.getBytes());
+				book.setBookPath(book.getIsbn() + "file.pdf");
+			}else{				
+				book.setBookPath("noFile.pdf");
+			}
+		    out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+//		book.setId(1);
+		libraryService.updateBook(book);
+		model.addAttribute("books", libraryService.getBooksByGenre(book.getGenre().getId()));
+		return "redirect:/library";
+	}
+	
+	@RequestMapping(value = "/picture_book/{name}", method = RequestMethod.GET)
+	public void showPicture(@PathVariable("name") String name, HttpServletResponse response, HttpServletRequest request){
+		try {
+			response.setContentType("image/jpg");
+			InputStream is = null;
+			if(name != null){
+				is = new FileInputStream(new File("e:\\Pictures\\picture\\" + name + ".jpg"));
+			}else{
+				is = new FileInputStream(new File("e:\\Pictures\\picture\\noImgBook.png"));
+			}
+			response.getOutputStream().write(IOUtils.toByteArray(is));
+			response.getOutputStream().close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/deleteBook/{id}", method = RequestMethod.GET)
+	public String deleteBook(@PathVariable("id") int id, Model model){
+		libraryService.deleteBookById(id);
+		model.addAttribute("books", libraryService.getBooksByGenre(1));
+		model.addAttribute("genres", libraryService.getAllGenre());
+		return "redirect:/library";
+	}
 }
