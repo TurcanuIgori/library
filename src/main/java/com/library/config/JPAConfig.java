@@ -15,14 +15,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages={"com.library"})
 @EnableTransactionManagement
 public class JPAConfig {
 
 	 @Bean
 	 public DataSource dataSource(){
 		BasicDataSource basicDataSource = new BasicDataSource();
-		basicDataSource.setUrl("jdbc:postgresql://localhost:5433/book");
+		basicDataSource.setUrl("jdbc:postgresql://localhost:5432/book");
 		basicDataSource.setDriverClassName("org.postgresql.Driver");
 		basicDataSource.setUsername("postgres");
 		basicDataSource.setPassword("postgre");		
@@ -65,10 +65,11 @@ public class JPAConfig {
 	 
 	 public Properties hibernateProperties(){
 		 Properties properties = new Properties();
-		 properties.put("hibernate.hbm2ddl.auto", "update");
+		 properties.put("hibernate.hbm2ddl.auto", "create-drop");
 		 properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 //		 properties.put("hibernate.show_sql", "true");
 		 properties.put("hibernate.format_sql", "true");
+		 properties.put("hibernate.ejb.naming_strategy", "hibernate.ejb.naming_strategy");
 		 return  properties;
 	 }
 	 

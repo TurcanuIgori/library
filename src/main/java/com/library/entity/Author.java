@@ -15,7 +15,7 @@ public class Author {
 	
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 //	@Pattern(regexp="^(([A-Za-z]+)(\\s[A-Za-z]+)*)$", message="Invalid first name.")
 //	@Size(min=4, max=20, message="Your first name must be between 4 and 20 characters long.")
@@ -27,11 +27,11 @@ public class Author {
 	@Column
 	private String lastName;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

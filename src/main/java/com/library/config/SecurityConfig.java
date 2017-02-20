@@ -26,43 +26,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // включаем защиту от CSRF атак
+    protected void configure(HttpSecurity http) throws Exception {       
         http.csrf()
                 .disable()
-                // указываем правила запросов
-                // по которым будет определятся доступ к ресурсам и остальным данным
+                
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/**").permitAll()
                 .anyRequest().permitAll()
                 .and();
  
         http.formLogin()
-                // указываем страницу с формой логина
+               
                 .loginPage("/login")
-                // указываем action с формы логина
+  
                 .loginProcessingUrl("/login")
-                // указываем URL при неудачном логине
+
                 .failureUrl("/login?error")
-                // Указываем параметры логина и пароля с формы логина
+
                 .usernameParameter("username")
                 .passwordParameter("password")
-                // даем доступ к форме логина всем
+  
                 .permitAll();
         http.logout()
-                // разрешаем делать логаут всем
+
                 .permitAll()
-                // указываем URL логаута
+
                 .logoutUrl("/logout")
-                // указываем URL при удачном логауте
+
                 .logoutSuccessUrl("/login?logout")
-                // делаем не валидной текущую сессию
+
                 .invalidateHttpSession(true);
-    }
- 
-    
-    // Указываем Spring контейнеру, что надо инициализировать <b></b>ShaPasswordEncoder
-    // Это можно вынести в WebAppConfig, но для понимаемости оставил тут
+    }    
+
 //    @Bean
 //    public PasswordEncoder getPasswordHelper(){
 //        return new PasswordHelper();

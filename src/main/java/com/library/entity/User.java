@@ -25,7 +25,7 @@ public class User {
 
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 	@NotNull(message="Please provide an email.")
 	@Pattern(regexp="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",	message="Invalid email address.")
@@ -69,10 +69,10 @@ public class User {
 	@Column
 	private String gender;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getUsername() {

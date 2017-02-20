@@ -14,7 +14,7 @@ public class Initializer implements WebApplicationInitializer{
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		// TODO Auto-generated method stub
 		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        // регистрация конфигураций в Spring контексте
+        
         ctx.register(WebbAppConfig.class);
 //        ctx.register(SecurityConfig.class);
         servletContext.addListener(new ContextLoaderListener(ctx));

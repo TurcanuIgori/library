@@ -11,13 +11,11 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.library.dao.BookRepository;
 import com.library.entity.Book;
-import com.library.entity.Genre;
-import com.library.entity.User;
 import com.library.service.LibraryService;
 
 @Controller
@@ -35,6 +32,9 @@ public class LibraryController {
 	
 	@Autowired
 	private LibraryService libraryService;
+	
+	@Autowired
+	BookRepository bookRepository;
 	
 	@RequestMapping(value="/addBook", method = RequestMethod.GET)
 	public String login(Model model){
@@ -94,8 +94,10 @@ public class LibraryController {
 	}
 	
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.GET)
-	public String editBook(@PathVariable("id") int id, Model model){
-		model.addAttribute("book", libraryService.getBookById(id));
+	public String editBook(@PathVariable("id") Long id, Model model){
+		
+		model.addAttribute("book", bookRepository.findBookById(id));
+		// model.addAttribute("book", libraryService.getBookById(id));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "addBook";
 	}
@@ -168,10 +170,16 @@ public class LibraryController {
 	}
 	
 	@RequestMapping(value="/deleteBook/{id}", method = RequestMethod.GET)
-	public String deleteBook(@PathVariable("id") int id, Model model){
+	public String deleteBook(@PathVariable("id") Long id, Model model){
 		libraryService.deleteBookById(id);
-		model.addAttribute("books", libraryService.getBooksByGenre(1));
+		model.addAttribute("books", libraryService.getBooksByGenre(1L));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "redirect:/library";
+	}
+	
+	@RequestMapping(value="/check/{id}", method = RequestMethod.GET)
+	public String check(@PathVariable("id") Long id, Model model){
+		model.addAttribute("books", bookRepository.findBookById(id));		
+		return "redirect:/check";
 	}
 }

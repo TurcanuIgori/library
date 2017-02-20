@@ -33,7 +33,7 @@ public class LibraryService {
 	}
 	
 	@Transactional
-	public List<Book> getBooksByGenre(int genre_id){
+	public List<Book> getBooksByGenre(Long genre_id){
 		return bookDAO.findBooksByGenre(genre_id);
 	}
 	
@@ -43,7 +43,7 @@ public class LibraryService {
 	}
 	
 	@Transactional
-	public Book getBookById(int id){
+	public Book getBookById(Long id){
 		return bookDAO.getBookById(id);
 	}
 	
@@ -68,7 +68,7 @@ public class LibraryService {
 	}
 	
 	@Transactional
-	public void deleteBookById(int id){
+	public void deleteBookById(Long id){
 		bookDAO.deleteBook(id);
 	}
 }

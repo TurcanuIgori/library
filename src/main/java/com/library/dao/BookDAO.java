@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.library.entity.Book;
 
 @Repository("bookDAO")
-public class BookDAO {
+public class BookDAO{
 	
 	private EntityManager em;
 
@@ -36,12 +36,12 @@ public class BookDAO {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void deleteBook(int id) throws IllegalStateException{		
+	public void deleteBook(Long id) throws IllegalStateException{		
 		em.remove(getBookById(id));
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public Book getBookById(int id) {
+	public Book getBookById(Long id) {
 		Query query = em.createQuery("Select b From Book as b join fetch b.genre g where b.id = :id");
 		query.setParameter("id", id);
 		return (Book) query.getSingleResult();
@@ -68,9 +68,16 @@ public class BookDAO {
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<Book> findBooksByGenre(int genre_id) {
+	public List<Book> findBooksByGenre(Long genre_id) {
 		Query query = em.createQuery("Select b From Book as b join fetch b.genre g where g.id = :genre_id");
 		query.setParameter("genre_id", genre_id);
 		return (List<Book>) query.getResultList();
 	}
+	
+//	@Transactional(propagation=Propagation.SUPPORTS)
+//	public List<Book> findBooksByGenre(int genre_id) {
+//		Query query = em.createQuery("Select b From Book as b join fetch b.genre g where g.id = :genre_id");
+//		query.setParameter("genre_id", genre_id);
+//		return (List<Book>) query.getResultList();
+//	}
 }

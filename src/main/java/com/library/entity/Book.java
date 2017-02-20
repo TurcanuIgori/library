@@ -21,7 +21,7 @@ public class Book {
 	
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 //	@Size(min=5, max=50, message="Name of book must be between 5 and 50 characters long.")
 	@Column
@@ -57,15 +57,15 @@ public class Book {
 	@Column
 	private String bookPath;
 	
-	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.EAGER)
 	@JoinColumn(name="genre_id", referencedColumnName="id")
 //	@JoinTable(name="book_genre", joinColumns={@JoinColumn(name="book_id")}, inverseJoinColumns={@JoinColumn(name="id")})
 	private Genre genre;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

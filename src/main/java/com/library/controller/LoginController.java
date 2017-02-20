@@ -112,7 +112,7 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", userService.findByUsername(request.getUserPrincipal().getName()));
 		model.addAttribute("genres", libraryService.getAllGenre());
-		model.addAttribute("books", libraryService.getBooksByGenre(1));
+		model.addAttribute("books", libraryService.getBooksByGenre(1L));
 		return "library";
 	}
 	
