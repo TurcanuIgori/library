@@ -1,5 +1,8 @@
 package com.library.entity;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +20,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="book")
-public class Book {
-	
+public class Book implements Serializable{
+		
+	private static final long serialVersionUID = 1L;
+
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -128,4 +133,78 @@ public class Book {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
+	
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.year);
+        hash = 47 * hash + Objects.hashCode(this.pages);
+        hash = 47 * hash + Objects.hashCode(this.isbn);
+        hash = 47 * hash + Objects.hashCode(this.author);
+        hash = 47 * hash + Objects.hashCode(this.picturePath);
+        hash = 47 * hash + Objects.hashCode(this.bookPath);
+        hash = 47 * hash + Objects.hashCode(this.description);
+        hash = 47 * hash + Objects.hashCode(this.publisher);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	
+    	if (this == obj) {
+             return true;
+         }
+    	
+    	if (obj == null) {
+             return false;
+         }
+    	
+    	if (getClass() != obj.getClass()) {
+             return false;
+         }
+    	 
+    	 final Book book = (Book) obj;
+    	 
+    	 if (!Objects.equals(this.id, book.id)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.name, book.name)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.year, book.year)) {
+             return false;
+         } 
+    	 if (!Objects.equals(this.pages, book.pages)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.isbn, book.isbn)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.author, book.author)) {
+             return false;
+         } 
+    	 
+    	 if (!Objects.equals(this.picturePath, book.picturePath)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.bookPath, book.bookPath)) {
+             return false;
+         } 
+    	 if (!Objects.equals(this.description, book.description)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.publisher, book.publisher)) {
+             return false;
+         } 
+    	 
+    	 return true;
+    }
 }

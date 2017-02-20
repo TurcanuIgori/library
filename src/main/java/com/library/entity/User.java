@@ -1,6 +1,9 @@
 package com.library.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +24,9 @@ import com.library.entity.enums.UserRoleEnum;
 @Entity
 @Table(name="users")
 @NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = ?1")
-public class User {
+public class User implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -135,4 +140,78 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+    
+	@Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.username);
+        hash = 47 * hash + Objects.hashCode(this.password);
+        hash = 47 * hash + Objects.hashCode(this.gender);
+        hash = 47 * hash + Objects.hashCode(this.dob);
+        hash = 47 * hash + Objects.hashCode(this.phone);
+        hash = 47 * hash + Objects.hashCode(this.picture);   
+        hash = 47 * hash + Objects.hashCode(this.firstName);
+        hash = 47 * hash + Objects.hashCode(this.lastName);
+        hash = 47 * hash + Objects.hashCode(this.role); 
+        return hash;
+    }
+	
+	@Override
+    public boolean equals(Object obj) {
+    	
+    	if (this == obj) {
+             return true;
+         }
+    	
+    	if (obj == null) {
+             return false;
+         }
+    	
+    	if (getClass() != obj.getClass()) {
+             return false;
+         }
+    	 
+    	 final User user = (User) obj;
+    	 
+    	 if (!Objects.equals(this.id, user.id)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.username, user.username)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.password, user.password)) {
+             return false;
+         } 
+    	 if (!Objects.equals(this.gender, user.gender)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.dob, user.dob)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.phone, user.phone)) {
+             return false;
+         } 
+    	 
+    	 if (!Objects.equals(this.picture, user.picture)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.firstName, user.firstName)) {
+             return false;
+         } 
+    	 if (!Objects.equals(this.lastName, user.lastName)) {
+             return false;
+         }  
+    	 
+    	 if (!Objects.equals(this.role, user.role)) {
+             return false;
+         } 
+    	 
+    	 return true;
+    }
 }

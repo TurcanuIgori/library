@@ -1,5 +1,8 @@
 package com.library.entity;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +14,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="author")
-public class Author {
+public class Author implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -50,4 +55,44 @@ public class Author {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.firstName);
+        hash = 47 * hash + Objects.hashCode(this.lastName);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	
+    	if (this == obj) {
+             return true;
+         }
+    	
+    	if (obj == null) {
+             return false;
+         }
+    	
+    	if (getClass() != obj.getClass()) {
+             return false;
+         }
+    	 
+    	 final Author author = (Author) obj;
+    	 
+    	 if (!Objects.equals(this.id, author.id)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.firstName, author.firstName)) {
+             return false;
+         }
+    	 
+    	 if (!Objects.equals(this.lastName, author.lastName)) {
+             return false;
+         }
+    	 return true;
+    }
 }
