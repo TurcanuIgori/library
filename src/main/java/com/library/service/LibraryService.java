@@ -6,69 +6,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.library.dao.AuthorDAO;
-import com.library.dao.BookDAO;
-import com.library.dao.GenreDAO;
+import com.library.dao.BookRepository;
+import com.library.dao.GenreRepository;
 import com.library.entity.Book;
 import com.library.entity.Genre;
 
 @Service
-public class LibraryService {
+public class LibraryService {	
 	
 	@Autowired
-	private AuthorDAO authorDAO;
-	@Autowired
-	private GenreDAO genreDAO;
-	@Autowired
-	private BookDAO bookDAO;
+	private GenreRepository genreRepository;
 	
+	@Autowired
+	private BookRepository bookRepository;
+		
 	@Transactional
 	public List<Genre> getAllGenre(){
-		return genreDAO.findAllGenres();
+		return genreRepository.findAll();
 	}
 	
 	@Transactional
 	public List<Book> getAllBooks(){
-		return bookDAO.findAllBooks();
+		return bookRepository.findAll();
 	}
 	
 	@Transactional
 	public List<Book> getBooksByGenre(Long genre_id){
-		return bookDAO.findBooksByGenre(genre_id);
+		return bookRepository.findBookByGenreId(genre_id);
 	}
 	
 	@Transactional
-	public List<Book> getBooksByTitle(String title){
-		return bookDAO.findBooksByTitle(title);
+	public List<Book> getBooksByTitle(String name){
+		return bookRepository.findBookByName(name);
 	}
 	
 	@Transactional
 	public Book getBookById(Long id){
-		return bookDAO.getBookById(id);
+		return bookRepository.findBookById(id);
 	}
 	
 	@Transactional
 	public Book getBookByISBN(String isbn){
-		return bookDAO.getBookByISBN(isbn);
+		return bookRepository.findBookByIsbn(isbn);
 	}
 	
 	@Transactional
 	public void addBook(Book book){
-		if(book.getId() != 0){
-			bookDAO.addBook(book);
-		}else{
-			bookDAO.updateBook(book);
-		}
+		bookRepository.save(book);
 		
 	}
 	
 	@Transactional
-	public void updateBook(Book book){
-		bookDAO.updateBook(book);
-	}
-	
-	@Transactional
 	public void deleteBookById(Long id){
-		bookDAO.deleteBook(id);
+		bookRepository.delete(id);
 	}
 }

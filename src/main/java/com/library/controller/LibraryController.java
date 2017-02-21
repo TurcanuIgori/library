@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.library.dao.BookRepository;
 import com.library.entity.Book;
 import com.library.service.LibraryService;
 
@@ -31,10 +31,7 @@ import com.library.service.LibraryService;
 public class LibraryController {
 	
 	@Autowired
-	private LibraryService libraryService;
-	
-	@Autowired
-	BookRepository bookRepository;
+	private LibraryService libraryService;	
 	
 	@RequestMapping(value="/addBook", method = RequestMethod.GET)
 	public String login(Model model){
@@ -44,12 +41,13 @@ public class LibraryController {
 	}
 	
 	@RequestMapping(value="/addBook", method = RequestMethod.POST)
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public String login(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
 //		if(bindingResult.hasErrors()){
 //			model.addAttribute("errors",  bindingResult.getAllErrors());
 //			return "addBook";
 //		}
-		File img = new File("E:\\Pictures\\picture\\" + book.getIsbn() + "image.jpg");
+		File img = new File("Pictures\\picture\\" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -68,7 +66,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("E:\\Pictures\\file\\" + book.getIsbn() + "file.pdf");
+		File file = new File("Pictures\\file\\" + book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -93,18 +91,18 @@ public class LibraryController {
 		return "redirect:/library";
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.GET)
-	public String editBook(@PathVariable("id") Long id, Model model){
-		
-		model.addAttribute("book", bookRepository.findBookById(id));
-		// model.addAttribute("book", libraryService.getBookById(id));
+	public String editBook(@PathVariable("id") Long id, Model model){		
+		model.addAttribute("book", libraryService.getBookById(id));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "addBook";
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.POST)
 	public String editBook(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
-		File img = new File("E:\\Pictures\\picture\\" + book.getIsbn() + "image.jpg");
+		File img = new File("Pictures\\picture\\" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -123,7 +121,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("E:\\Pictures\\file\\" + book.getIsbn() + "file.pdf");
+		File file = new File("Pictures\\file\\" + book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -143,20 +141,21 @@ public class LibraryController {
 			e.printStackTrace();
 		}		
 //		book.setId(1);
-		libraryService.updateBook(book);
+		libraryService.addBook(book);
 		model.addAttribute("books", libraryService.getBooksByGenre(book.getGenre().getId()));
 		return "redirect:/library";
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value = "/picture_book/{name}", method = RequestMethod.GET)
 	public void showPicture(@PathVariable("name") String name, HttpServletResponse response, HttpServletRequest request){
 		try {
 			response.setContentType("image/jpg");
 			InputStream is = null;
 			if(name != null){
-				is = new FileInputStream(new File("e:\\Pictures\\picture\\" + name + ".jpg"));
+				is = new FileInputStream(new File("Pictures\\picture\\" + name + ".jpg"));
 			}else{
-				is = new FileInputStream(new File("e:\\Pictures\\picture\\noImgBook.png"));
+				is = new FileInputStream(new File("Pictures\\picture\\noImgBook.png"));
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();
@@ -169,17 +168,12 @@ public class LibraryController {
 		}
 	}
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value="/deleteBook/{id}", method = RequestMethod.GET)
 	public String deleteBook(@PathVariable("id") Long id, Model model){
 		libraryService.deleteBookById(id);
 		model.addAttribute("books", libraryService.getBooksByGenre(1L));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "redirect:/library";
-	}
-	
-	@RequestMapping(value="/check/{id}", method = RequestMethod.GET)
-	public String check(@PathVariable("id") Long id, Model model){
-		model.addAttribute("books", bookRepository.findBookById(id));		
-		return "redirect:/check";
 	}
 }

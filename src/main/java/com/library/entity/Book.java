@@ -62,7 +62,7 @@ public class Book implements Serializable{
 	@Column
 	private String bookPath;
 	
-	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
 	@JoinColumn(name="genre_id", referencedColumnName="id")
 //	@JoinTable(name="book_genre", joinColumns={@JoinColumn(name="book_id")}, inverseJoinColumns={@JoinColumn(name="id")})
 	private Genre genre;

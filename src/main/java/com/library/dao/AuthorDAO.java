@@ -23,7 +23,7 @@ public class AuthorDAO {
 	}
 	
 	@Transactional
-	public Author getAuthorById(int id) {
+	public Author getAuthorById(Long id) {
 		Query query = em.createQuery("Select a From Author as a where a.id = :id");
 		query.setParameter("id", id);
 		return (Author) query.getSingleResult();

@@ -31,7 +31,7 @@
 			</fieldset>
 			<footer>
 	<!-- 				<label><input type="checkbox"  form="loginForm">Remember me</label> -->
-				<input type="submit" class="btnLogin"  value="Save">
+				<input type="submit" class="btnLogin"  value="Login">
 	<!-- 			  <a href="home.jsp" class="btnLogin" value="Login">Login</a> -->
 			</footer>	
 	    </form>

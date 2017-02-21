@@ -30,15 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.library.entity.User;
 import com.library.entity.enums.UserRoleEnum;
 import com.library.service.LibraryService;
-import com.library.service.SecurityService;
 import com.library.service.UserService;
-import com.library.validator.UserValidator;
 
 @Controller
 public class LoginController {
 	
-	@Autowired
-	private SecurityService securityService;
+//	@Autowired
+//	private SecurityService securityService;
 	
 	@Autowired
 	private LibraryService libraryService;
@@ -46,11 +44,11 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private UserValidator userValidator;
+//	@Autowired
+//	private UserValidator userValidator;
 	
 	@RequestMapping(value="edit/{id}", method = RequestMethod.GET)
-	public String singUp(@PathVariable("id") int id, Model model){
+	public String singUp(@PathVariable("id") Long id, Model model){
 		if(id != 0){
 			model.addAttribute("user", userService.findById(id));
 		}else{
@@ -74,7 +72,7 @@ public class LoginController {
 		}
 		try {
 			
-				File img = new File("e:\\Pictures\\" + userForm.getUsername() + "image.jpg");
+				File img = new File("Pictures\\" + userForm.getUsername() + "image.jpg");
 				if(img.exists()){
 					img.delete();
 				}
@@ -125,8 +123,8 @@ public class LoginController {
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-	public String admin(@PathVariable("id") int id, Model model){
-		File img = new File("e:\\Pictures\\" + userService.findById(id).getPicture());
+	public String admin(@PathVariable("id") Long id, Model model){
+		File img = new File("Pictures\\" + userService.findById(id).getPicture());
 		if(img.exists()){
 			img.delete();
 		}
@@ -141,9 +139,9 @@ public class LoginController {
 			response.setContentType("image/jpg");
 			InputStream is = null;
 			if(name != null){
-				is = new FileInputStream(new File("e:\\Pictures\\" + name + ".jpg"));
+				is = new FileInputStream(new File("Pictures\\" + name + ".jpg"));
 			}else{
-				is = new FileInputStream(new File("e:\\Pictures\\noImg.png"));
+				is = new FileInputStream(new File("Pictures\\noImg.png"));
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();
