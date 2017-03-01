@@ -7,18 +7,23 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.library.entity.Genre;
+import com.library.entity.Author;
 
 @Repository
-public interface GenreRepository  extends JpaRepository<Genre, Long>{
-
+public interface AuthorRepository extends JpaRepository<Author, Long>{
+	
 	@Transactional(propagation = Propagation.SUPPORTS)
-	List<Genre> findAll();
+	Author findAuthorById(Long id);
+	
+	@Transactional(propagation = Propagation.SUPPORTS)
+	Author findAuthorByFirstNameAndLastName(String firstName, String lastName);
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	Genre save(Genre genre);
+	void delete(Author author);
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	Author save(Author author);
 	
 	@Transactional(propagation = Propagation.SUPPORTS)
-	Genre findGenreById(Long id);
-
+	List<Author> findAll();
 }

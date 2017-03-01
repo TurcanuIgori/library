@@ -18,45 +18,37 @@ public class LibraryService {
 	private GenreRepository genreRepository;
 	
 	@Autowired
-	private BookRepository bookRepository;
-		
-	@Transactional
+	private BookRepository bookRepository;		
+	
 	public List<Genre> getAllGenre(){
 		return genreRepository.findAll();
-	}
+	}	
 	
-	@Transactional
 	public List<Book> getAllBooks(){
 		return bookRepository.findAll();
-	}
+	}	
 	
-	@Transactional
 	public List<Book> getBooksByGenre(Long genre_id){
 		return bookRepository.findBookByGenreId(genre_id);
-	}
+	}	
 	
-	@Transactional
 	public List<Book> getBooksByTitle(String name){
 		return bookRepository.findBookByName(name);
-	}
+	}	
 	
-	@Transactional
 	public Book getBookById(Long id){
 		return bookRepository.findBookById(id);
-	}
+	}	
 	
-	@Transactional
 	public Book getBookByISBN(String isbn){
 		return bookRepository.findBookByIsbn(isbn);
-	}
+	}	
 	
-	@Transactional
 	public void addBook(Book book){
 		bookRepository.save(book);
 		
-	}
+	}	
 	
-	@Transactional
 	public void deleteBookById(Long id){
 		bookRepository.delete(id);
 	}

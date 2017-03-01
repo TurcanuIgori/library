@@ -1,4 +1,4 @@
-package com.library.dao;
+package com.library.repository;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import com.library.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
 	
-	@Transactional
+	@Transactional(propagation=Propagation.SUPPORTS)
 	User findUserByUsername(String username);
 
-	@Transactional
+	@Transactional(propagation=Propagation.SUPPORTS)
 	User findUserById(Long id);
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	List<User> findAll();
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	User save(User user);
 }
