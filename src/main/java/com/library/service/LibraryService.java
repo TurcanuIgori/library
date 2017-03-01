@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.library.dao.BookRepository;
-import com.library.dao.GenreRepository;
+import com.library.repository.BookRepository;
+import com.library.repository.GenreRepository;
 import com.library.entity.Book;
 import com.library.entity.Genre;
 
