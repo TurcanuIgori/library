@@ -147,15 +147,16 @@ public class LibraryController {
 	}
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
-	@RequestMapping(value = "/picture_book/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = {"/picture_book/{name}", "/editBook/picture_book/{name}"}, method = RequestMethod.GET)	
 	public void showPicture(@PathVariable("name") String name, HttpServletResponse response, HttpServletRequest request){
+		response.setContentType("image/jpg");
+		InputStream is = null;
 		try {
-			response.setContentType("image/jpg");
-			InputStream is = null;
-			if(name != null){
-				is = new FileInputStream(new File("Pictures\\picture\\" + name + ".jpg"));
-			}else{
+			if(name.trim().equals("noImgBook.png")){
 				is = new FileInputStream(new File("Pictures\\picture\\noImgBook.png"));
+			}else{
+				is = new FileInputStream(new File("Pictures\\picture\\" + name + ".jpg"));
+				System.out.println("\\picture\\" + name + ".jpg");
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();

@@ -23,14 +23,13 @@
 				</a>
 				<form:hidden path="id"/>
 				<input type="hidden" name="category_id" value="${book.genre.id}"/>
-				<div id="profilePicture">
-				<img src="picture_book/<c:out value="${picturePath}"/>" id="image" width="150px"> 
-<%-- 				    <c:if test="${book.id != null}"> --%>
-<%-- 				        <img src="BookPicture?id=${book.id}" id="image" width="150px"> 					         --%>
-<%-- 				    </c:if>     --%>
-<%-- 				    <c:if test="${book.id == null}"> --%>
-<%-- 				        <img src="<c:url value="/pages/resources/images/noImgBook.png" />" id="image" height="150px">					         --%>
-<%-- 				    </c:if> --%>
+				<div id="profilePicture">				 
+				    <c:if test="${book.id != null}">
+				        <img src="picture_book/<c:out value="${book.picturePath}"/>" id="image" width="150px"> 					        
+				    </c:if>    
+				    <c:if test="${book.id == null}">
+				        <img src="picture_book/noImgBook.jpg" id="image" width="150px">					        
+				    </c:if>
 					<input type="file" accept="image/*" onchange="document.getElementById('image').setAttribute('src', window.URL.createObjectURL(this.files[0]))" name="picture" id="picture">
 				</div>
 				<form:label path="bookPath">Select book file</form:label>
