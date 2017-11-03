@@ -25,7 +25,7 @@ public class JPAConfig {
 		basicDataSource.setUrl("jdbc:postgresql://localhost:5432/book");
 		basicDataSource.setDriverClassName("org.postgresql.Driver");
 		basicDataSource.setUsername("postgres");
-		basicDataSource.setPassword("postgre");		
+		basicDataSource.setPassword("postgres");
 //		basicDataSource.setMaxActive(5);
 //		basicDataSource.setMinIdle(3);
 		return basicDataSource;

@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value="/pages/resources/styles/style.css" />">
 	</head>
 	<body>
-		<form:form commandName="user" class="box register" id="user" method="POST" action="/book/singup" enctype="multipart/form-data">
+		<form:form commandName="user" class="box register" id="user" method="POST" action="/singup" enctype="multipart/form-data">
 			<fieldset class="boxBody">
 				<a href="?lang=ru">
 					<img src="<c:url value="/pages/resources/images/rus.png" />" title="Russian" width="16" height="13"/>

@@ -72,7 +72,7 @@ public class LoginController {
 		}
 		try {
 			
-				File img = new File("Pictures\\" + userForm.getUsername() + "image.jpg");
+				File img = new File(userForm.getUsername() + "image.jpg");
 				if(img.exists()){
 					img.delete();
 				}
@@ -139,9 +139,9 @@ public class LoginController {
 			response.setContentType("image/jpg");
 			InputStream is = null;
 			if(name != null){
-				is = new FileInputStream(new File("Pictures\\" + name + ".jpg"));
+				is = new FileInputStream(new File( name + "image.jpeg"));
 			}else{
-				is = new FileInputStream(new File("Pictures\\noImg.png"));
+				is = new FileInputStream(new File("noImg.png"));
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();

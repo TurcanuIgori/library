@@ -102,7 +102,7 @@ public class LibraryController {
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.POST)
 	public String editBook(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
-		File img = new File("Pictures\\picture\\" + book.getIsbn() + "image.jpg");
+		File img = new File("classpath" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -121,7 +121,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("Pictures\\file\\" + book.getIsbn() + "file.pdf");
+		File file = new File("classpath" + book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
