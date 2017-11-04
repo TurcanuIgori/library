@@ -28,6 +28,7 @@ import com.library.entity.Book;
 import com.library.service.LibraryService;
 
 @Controller
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class LibraryController {
 	
 	@Autowired
@@ -47,7 +48,7 @@ public class LibraryController {
 //			model.addAttribute("errors",  bindingResult.getAllErrors());
 //			return "addBook";
 //		}
-		File img = new File("Pictures\\picture\\" + book.getIsbn() + "image.jpg");
+		File img = new File("E:/app/bookimage/" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -59,14 +60,14 @@ public class LibraryController {
 				out.write(picture.getBytes());
 				book.setPicturePath(book.getIsbn() + "image.jpeg");
 			}else{				
-				book.setPicturePath("noImage.jpeg");
+				book.setPicturePath("noImage.png");
 			}
 		    out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("Pictures\\file\\" + book.getIsbn() + "file.pdf");
+		File file = new File("E:/app/bookimage/" + book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -102,7 +103,7 @@ public class LibraryController {
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value="/editBook/{id}", method = RequestMethod.POST)
 	public String editBook(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
-		File img = new File("classpath" + book.getIsbn() + "image.jpg");
+		File img = new File("E:/app/bookimage/" + book.getIsbn() + "image.jpg");
 		if(img.exists()){
 			img.delete();
 		}
@@ -114,14 +115,14 @@ public class LibraryController {
 				out.write(picture.getBytes());
 				book.setPicturePath(book.getIsbn() + "image.jpeg");
 			}else{				
-				book.setPicturePath("noImage.jpeg");
+				book.setPicturePath("noImgBook.png");
 			}
 		    out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("classpath" + book.getIsbn() + "file.pdf");
+		File file = new File(book.getIsbn() + "file.pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -137,7 +138,6 @@ public class LibraryController {
 			}
 		    out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 //		book.setId(1);
@@ -153,10 +153,10 @@ public class LibraryController {
 		InputStream is = null;
 		try {
 			if(name.trim().equals("noImgBook.png")){
-				is = new FileInputStream(new File("Pictures\\picture\\noImgBook.png"));
+				is = new FileInputStream(new File("E:/app/bookimage/noImgBook.png"));
 			}else{
-				is = new FileInputStream(new File("Pictures\\picture\\" + name + ".jpg"));
-				System.out.println("\\picture\\" + name + ".jpg");
+				File img1 = new File("E:/app/bookimage/" + name + ".jpg");
+				is = new FileInputStream(img1);
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();

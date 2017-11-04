@@ -72,7 +72,7 @@ public class LoginController {
 		}
 		try {
 			
-				File img = new File(userForm.getUsername() + "image.jpg");
+				File img = new File("E:/app/userimage/" + userForm.getUsername() + "image.jpg");
 				if(img.exists()){
 					img.delete();
 				}
@@ -124,7 +124,7 @@ public class LoginController {
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public String admin(@PathVariable("id") Long id, Model model){
-		File img = new File("Pictures\\" + userService.findById(id).getPicture());
+		File img = new File("E:/app/userimage/" + userService.findById(id).getPicture());
 		if(img.exists()){
 			img.delete();
 		}
@@ -139,9 +139,9 @@ public class LoginController {
 			response.setContentType("image/jpg");
 			InputStream is = null;
 			if(name != null){
-				is = new FileInputStream(new File( name + "image.jpeg"));
+				is = new FileInputStream(new File( "E:/app/userimage/" + name + ".jpg"));
 			}else{
-				is = new FileInputStream(new File("noImg.png"));
+				is = new FileInputStream(new File("E:/app/userimage/noImg.png"));
 			}
 			response.getOutputStream().write(IOUtils.toByteArray(is));
 			response.getOutputStream().close();

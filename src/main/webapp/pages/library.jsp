@@ -41,8 +41,8 @@
 			<div class="menu">
 				<ul>
 					<li><a href="library">home</a></li>                            
-					<li><a href="about.jsp">about</a></li>
-					<li><a href="SendEmail" target="_blank">contact</a></li>                            
+					<li><a href="about">about</a></li>
+					<li><a href="contact">contact</a></li>
 				</ul>
 			</div> 
 			<div class="search">
