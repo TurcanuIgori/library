@@ -121,7 +121,7 @@
 									<a class="mr" href="BookController?action=READ_BOOK&id=${book.id}" target="_blank">
 										<p class="read">Read</p>
 									</a>
-									<a href="DownloadPDF?id=${book.id}" class="mr" value="Download" target="_blank">
+									<a href="downloadBook/${book.id}" class="mr" value="Download" target="_blank">
 										<p class="download">Download</p>
 									</a>
 									<a href="editBook/${book.id}" class="mr" title="Edit Book">

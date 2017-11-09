@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class LibraryController {
 	
 	@RequestMapping(value="/addBook", method = RequestMethod.POST)
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
-	public String login(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
+	public String addBook(@ModelAttribute("book") Book book, Model model, @RequestParam(value="picture", required=true) MultipartFile picture, @RequestParam(value="filePdf", required=true) MultipartFile bookFile){
 //		if(bindingResult.hasErrors()){
 //			model.addAttribute("errors",  bindingResult.getAllErrors());
 //			return "addBook";
@@ -67,7 +68,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File("E:/app/bookimage/" + book.getIsbn() + "file.pdf");
+		File file = new File("E:/app/bookfile/" + book.getIsbn() + ".pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -79,7 +80,7 @@ public class LibraryController {
 				out.write(bookFile.getBytes());
 				book.setBookPath(book.getIsbn() + "file.pdf");
 			}else{				
-				book.setBookPath("noFile.pdf");
+				book.setBookPath("E:/app/bookfile/noFile.pdf");
 			}
 		    out.close();
 		} catch (IOException e) {
@@ -176,5 +177,27 @@ public class LibraryController {
 		model.addAttribute("books", libraryService.getBooksByGenre(1L));
 		model.addAttribute("genres", libraryService.getAllGenre());
 		return "redirect:/library";
+	}
+
+	@RequestMapping(value="downloadBook/{bookId}", method = RequestMethod.GET)
+	public void downloadBook(@PathVariable("bookId") Long bookId, Model model, HttpServletResponse response, HttpServletRequest request) {
+		response.setContentType("image/pdf");
+		InputStream is = null;
+		try {
+			if(Objects.isNull(bookId)){
+				is = new FileInputStream(new File("E:/app/bookfile/noFile.pdf"));
+			}else{
+				File img1 = new File("E:/app/bookfile/" + libraryService.getBookById(bookId).getIsbn() + ".pdf");
+				is = new FileInputStream(img1);
+			}
+			response.getOutputStream().write(IOUtils.toByteArray(is));
+			response.getOutputStream().close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
