@@ -28,7 +28,7 @@
 				        <img src="picture_book/<c:out value="${book.picturePath}"/>" id="image" width="150px"> 					        
 				    </c:if>    
 				    <c:if test="${book.id == null}">
-				        <img src="picture_book/noImgBook.jpg" id="image" width="150px">					        
+				        <img src="picture_book/noImgBook.png" id="image" width="150px">
 				    </c:if>
 					<input type="file" accept="image/*" onchange="document.getElementById('image').setAttribute('src', window.URL.createObjectURL(this.files[0]))" name="picture" id="picture">
 				</div>

@@ -22,10 +22,10 @@ public class JPAConfig {
 	 @Bean
 	 public DataSource dataSource(){
 		BasicDataSource basicDataSource = new BasicDataSource();
-		basicDataSource.setUrl("jdbc:postgresql://localhost:5432/book");
-		basicDataSource.setDriverClassName("org.postgresql.Driver");
-		basicDataSource.setUsername("postgres");
-		basicDataSource.setPassword("postgres");
+		basicDataSource.setUrl("jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11204326");
+		basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		basicDataSource.setUsername("sql11204326");
+		basicDataSource.setPassword("iA42d8kwjm");
 //		basicDataSource.setMaxActive(5);
 //		basicDataSource.setMinIdle(3);
 		return basicDataSource;

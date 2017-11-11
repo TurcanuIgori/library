@@ -153,7 +153,7 @@ public class LibraryController {
 		response.setContentType("image/jpg");
 		InputStream is = null;
 		try {
-			if(name.trim().equals("noImgBook.png")){
+			if(name.trim().contains	("noImgBook")){
 				is = new FileInputStream(new File("E:/app/bookimage/noImgBook.png"));
 			}else{
 				File img1 = new File("E:/app/bookimage/" + name + ".jpg");
