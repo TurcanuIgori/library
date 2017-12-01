@@ -110,7 +110,7 @@ public class LibraryController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		File file = new File(book.getIsbn() + "file.pdf");
+		File file = new File("E:/app/bookfile/" + book.getIsbn() + ".pdf");
 		if(file.exists()){
 			file.delete();
 		}
@@ -120,9 +120,9 @@ public class LibraryController {
 			out = new BufferedOutputStream(new FileOutputStream(file));
 			if(bookFile.getBytes().length != 0){
 				out.write(bookFile.getBytes());
-				book.setBookPath(book.getIsbn() + "file.pdf");
+				book.setBookPath(book.getIsbn() + ".pdf");
 			}else{				
-				book.setBookPath("noFile.pdf");
+				book.setBookPath(".pdf");
 			}
 		    out.close();
 		} catch (IOException e) {
@@ -168,7 +168,7 @@ public class LibraryController {
 
 	@RequestMapping(value="downloadBook/{bookId}", method = RequestMethod.GET)
 	public void downloadBook(@PathVariable("bookId") Long bookId, Model model, HttpServletResponse response, HttpServletRequest request) {
-		response.setContentType("image/pdf");
+		response.setContentType("application/pdf");
 		InputStream is = null;
 		try {
 			if(Objects.isNull(bookId)){

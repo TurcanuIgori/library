@@ -118,7 +118,7 @@
 									</div>
 	
 	
-									<a class="mr" href="BookController?action=READ_BOOK&id=${book.id}" target="_blank">
+									<a class="mr" href="downloadBook/${book.id}" target="_blank">
 										<p class="read">Read</p>
 									</a>
 									<a href="downloadBook/${book.id}" class="mr" value="Download" target="_blank">
@@ -140,7 +140,7 @@
 		</div>
 		 <div id="footer">
                 <div class="footer-wrap">
-                    <p>© 2016 Online Library <a href="contact.jsp" class="footerLink">Contact Us  </a><a class="footerLink" href="about.jsp">About Us</a></p>
+                    <p>© 2017 Online Library <a href="contact.jsp" class="footerLink">Contact Us  </a><a class="footerLink" href="about.jsp">About Us</a></p>
                 </div>
             </div>
 	</body>
